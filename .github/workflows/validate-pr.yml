@@ -1,0 +1,19 @@
+name: Validate Pull Request
+
+on:
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  validate-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificando nome da branch do PR
+        run: |
+          echo "Branch do PR: $GITHUB_HEAD_REF"
+          if [[ "$GITHUB_HEAD_REF" =~ ^(feature|bugfix|hotfix|chore)/.+$ ]]; then
+          echo "✅ Nome da branch está no padrão."
+          else
+          echo "❌ ERRO: Nome da brnach deve começar com feature/, bugfix/, hotfix/ ou chore/"
+          exit 1
+          fi
